@@ -3,34 +3,73 @@ import UniformTypeIdentifiers
 import AppKit
 
 // MARK: - Size Presets
+import SwiftUI
+
 enum SizePreset: String, CaseIterable {
     case custom = "Custom"
-    case iPhone_SE = "iPhone SE (375x667)"
-    case iPhone_12_Pro = "iPhone 12 Pro (390x844)"
-    case iPhone_12_Pro_Max = "iPhone 12 Pro Max (428x926)"
-    case iPhone_14_Pro_Max = "iPhone 14 Pro Max (430x932)"
-    case iPad_Mini = "iPad Mini (744x1133)"
-    case iPad_Pro_11 = "iPad Pro 11\" (834x1194)"
-    case iPad_Pro_12_9 = "iPad Pro 12.9\" (1024x1366)"
-    case Mac_13 = "MacBook 13\" (1280x800)"
-    case Mac_15 = "MacBook 15\" (1440x900)"
-    case Mac_AppStore = "Mac App Store (1280x768)"
-    case Apple_Watch = "Apple Watch (368x448)"
+    
+    // MARK: - iPhone (App Store Connect)
+    // 6.9" Display (iPhone 16 Pro Max)
+    case iPhone_6_9 = "iPhone 6.9\" Display (1320x2868)"
+    // 6.7" Display (iPhone 15 Pro Max, 14 Pro Max) - Very common
+    case iPhone_6_7 = "iPhone 6.7\" Display (1290x2796)"
+    // 6.5" Display (iPhone 11 Pro Max, XS Max) - Standard Max size
+    case iPhone_6_5 = "iPhone 6.5\" Display (1242x2688)"
+    // 6.1" Display (iPhone 15 Pro, 14 Pro) - Standard Pro size
+    case iPhone_6_1 = "iPhone 6.1\" Display (1179x2556)"
+    // 5.5" Display (iPhone 8 Plus) - Legacy support
+    case iPhone_5_5 = "iPhone 5.5\" Display (1242x2208)"
+    // 4.7" Display (iPhone SE 3rd Gen)
+    case iPhone_4_7 = "iPhone 4.7\" Display (750x1334)"
+    
+    // MARK: - iPad
+    // 13" Ultra Retina XDR (iPad Pro M4)
+    case iPad_13 = "iPad Pro 13\" (2064x2752)"
+    // 12.9" Liquid Retina XDR (iPad Pro 12.9 2nd-6th Gen)
+    case iPad_12_9 = "iPad Pro 12.9\" (2048x2732)"
+    // 11" Ultra Retina XDR (iPad Pro 11 M4)
+    case iPad_11 = "iPad Pro 11\" (1668x2420)"
+    
+    // MARK: - Mac
+    case Mac_AppStore = "Mac App Store (2880x1800)"
+    
+    // MARK: - Google Play
+    case Android_Phone = "Google Play Phone (1080x1920)"
+    case Android_Tablet_10 = "Google Play Tablet 10\" (1920x1200)"
+    
+    // MARK: - Marketing Assets (Essential)
+    case PlayStore_Feature = "Google Play Feature Graphic (1024x500)"
+    case AppStore_Icon = "App Store Icon (1024x1024)"
+    case PlayStore_Icon = "Google Play Icon (512x512)"
+    
+    // MARK: - Wearables
+    case Apple_Watch = "Apple Watch Ultra (502x410)"
 
     var size: CGSize {
         switch self {
-        case .custom: return CGSize(width: 1242, height: 2208)
-        case .iPhone_SE: return CGSize(width: 375, height: 667)
-        case .iPhone_12_Pro: return CGSize(width: 390, height: 844)
-        case .iPhone_12_Pro_Max: return CGSize(width: 428, height: 926)
-        case .iPhone_14_Pro_Max: return CGSize(width: 430, height: 932)
-        case .iPad_Mini: return CGSize(width: 744, height: 1133)
-        case .iPad_Pro_11: return CGSize(width: 834, height: 1194)
-        case .iPad_Pro_12_9: return CGSize(width: 1024, height: 1366)
-        case .Mac_13: return CGSize(width: 1280, height: 800)
-        case .Mac_15: return CGSize(width: 1440, height: 900)
-        case .Mac_AppStore: return CGSize(width: 1280, height: 768)
-        case .Apple_Watch: return CGSize(width: 368, height: 448)
+        case .custom: return CGSize(width: 1242, height: 2688)
+            
+        case .iPhone_6_9: return CGSize(width: 1320, height: 2868)
+        case .iPhone_6_7: return CGSize(width: 1290, height: 2796)
+        case .iPhone_6_5: return CGSize(width: 1242, height: 2688)
+        case .iPhone_6_1: return CGSize(width: 1179, height: 2556)
+        case .iPhone_5_5: return CGSize(width: 1242, height: 2208)
+        case .iPhone_4_7: return CGSize(width: 750, height: 1334)
+            
+        case .iPad_13: return CGSize(width: 2064, height: 2752)
+        case .iPad_12_9: return CGSize(width: 2048, height: 2732)
+        case .iPad_11: return CGSize(width: 1668, height: 2420)
+            
+        case .Mac_AppStore: return CGSize(width: 2880, height: 1800)
+            
+        case .Android_Phone: return CGSize(width: 1080, height: 1920)
+        case .Android_Tablet_10: return CGSize(width: 1920, height: 1200)
+            
+        case .PlayStore_Feature: return CGSize(width: 1024, height: 500)
+        case .AppStore_Icon: return CGSize(width: 1024, height: 1024)
+        case .PlayStore_Icon: return CGSize(width: 512, height: 512)
+            
+        case .Apple_Watch: return CGSize(width: 502, height: 410)
         }
     }
 }
@@ -501,14 +540,14 @@ struct ProgressOverlay: View {
 // MARK: - Main View
 struct ContentView: View {
     @State private var targetWidth: String = "1242"
-    @State private var targetHeight: String = "2208"
+    @State private var targetHeight: String = "2688"
 
     @State private var inputImages: [ImageInfo] = []
     @State private var outputImages: [ProcessedImage] = []
     @State private var isHoveringDropZone = false
 
     // Settings
-    @State private var selectedPreset: SizePreset = .iPhone_12_Pro_Max
+    @State private var selectedPreset: SizePreset = .iPhone_6_5
     @State private var outputFormat: OutputFormat = .png
     @State private var jpegQuality: Double = 0.85
     @State private var maintainAspectRatio: Bool = true
